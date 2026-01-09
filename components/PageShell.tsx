@@ -1,12 +1,5 @@
 "use client";
 
-/**
- * PageShell (overlay mode)
- * - Constrains width to illustration width.
- * - Renders the illustration as the base layer.
- * - Overlays a content area on top, anchored to the lower half.
- */
-
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { ILLUSTRATION_FOR_PATH } from "@/lib/illustrations";
@@ -19,11 +12,13 @@ export function PageShell({ children }: { children: ReactNode }) {
   return (
     <main className="shell">
       <div className="stage">
-        {/* Base illustration (non-interactive) */}
-        <IllustrationBackground src={src} alt="" />
+        {/* Top illustration slot */}
+        <div className="heroArt" aria-hidden="true">
+          <IllustrationBackground src={src} alt="" />
+        </div>
 
-        {/* Overlayed content (interactive) */}
-        <div className="overlay">{children}</div>
+        {/* Content area */}
+        <div className="content">{children}</div>
       </div>
     </main>
   );

@@ -14,7 +14,7 @@ export default function DetailsPage() {
         <h1>{c.title}</h1>
 
         {c.body.map((line, idx) => (
-          line === "" ? <hr key={idx} /> : <p key={idx}>{line}</p>
+          <p key={idx}>{line}</p>
         ))}
 
         <p><strong>{c.question}</strong></p>

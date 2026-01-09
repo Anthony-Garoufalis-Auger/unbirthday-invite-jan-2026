@@ -11,7 +11,7 @@ html, body{
 
 /* Page background outside the illustration */
 body{
-  background: #efe9dc;
+  background: #ffffff;
   color: #1b1b1b;
 }
 
@@ -27,47 +27,32 @@ img{
   min-height: 100svh;
   display: flex;
   justify-content: center;
-  background: #efe9dc;
+  background: #ffffff;
 }
 
 /* Stage: single column, two rows (hero + content) */
 .stage{
-  width: clamp(var(--paper-min), 92vw, var(--paper-max));
+  width: 100%;
   min-height: 100svh;
   display: flex;
   flex-direction: column;
 }
 
-/* A dedicated illustration slot that always fits on phones */
-.heroArt{
+/* Illustration fills the screen width */
+.illustration{
   width: 100%;
-  height: min(42svh, 420px); /* lower if you want more text above the fold */
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  height: auto;
+  display: block;
 }
 
-/* Make the illustration fit inside the slot */
-.heroArt img{
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* critical: contain, not cover */
-}
-
-/* Content area below the hero (scrolls naturally if needed) */
-.content{
-  flex: 1;
-  padding-top: 10px;
-}
-
-/* The wrapper under the illustration; stays transparent */
-.copywrap{
-  background: transparent;
+/* Overlay content starts within the illustration’s lower half */
+.overlay{
+  margin-top: clamp(-220px, -28svh, -140px);
 }
 
 /* This class is used inside each page (your <section className="copy">) */
-.copy{
+.copy,
+.panel{
   width: 100%;
   padding: clamp(10px, 2.2vw, 18px) clamp(14px, 2.6vw, 22px);
   background: transparent;
@@ -141,3 +126,40 @@ img{
   border-color: rgba(0,0,0,0.8);
 }
 
+@media (max-width: 430px){
+  .copy{
+    padding: 12px 16px;
+  }
+
+  .copy h1{
+    font-size: 24px;
+    margin: 0 0 6px 0;
+    letter-spacing: 0.03em;
+  }
+
+  .copy p{
+    font-size: 15px;
+    margin: 0 0 8px 0;
+    line-height: 1.35;
+  }
+
+  .field label{
+    margin: 10px 0 6px;
+  }
+
+  .actions{
+    gap: 8px;
+    margin-top: 10px;
+  }
+
+  .button{
+    padding: 7px 10px;
+  }
+}
+
+/* Extra-short phones (iPhone SE etc.) */
+@media (max-height: 700px){
+  .overlay{
+    margin-top: clamp(-200px, -24svh, -120px);
+  }
+}
