@@ -45,10 +45,18 @@ img{
   display: block;
 }
 
+/* Illustration + overlay stack */
+.heroArt{
+  position: relative;
+}
+
 /* Overlay content starts within the illustration’s lower half */
 .overlay{
-  margin-top: clamp(-220px, -28svh, -140px);
-  padding-top: clamp(40px, 8svh, 90px);
+  position: absolute;
+  top: calc(50% + 5lh);
+  left: 0;
+  right: 0;
+  z-index: 1;
 }
 
 /* This class is used inside each page (your <section className="copy">) */
@@ -161,7 +169,6 @@ img{
 /* Extra-short phones (iPhone SE etc.) */
 @media (max-height: 700px){
   .overlay{
-    margin-top: clamp(-200px, -24svh, -120px);
-    padding-top: clamp(30px, 6svh, 80px);
+    top: calc(46% + 4lh);
   }
 }

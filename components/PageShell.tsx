@@ -15,12 +15,9 @@ export function PageShell({ children }: { children: ReactNode }) {
         {/* Top illustration slot */}
         <div className="heroArt" aria-hidden="true">
           <IllustrationBackground src={src} alt="" />
+          <div className="overlay">{children}</div>
         </div>
-
-        {/* Content area */}
-        <div className="content">{children}</div>
       </div>
     </main>
   );
 }
-
