@@ -1,16 +1,16 @@
-import type { Metadata } from "next";
 import "./globals.css";
 
-export const metadata: Metadata = {
-  title: "Very Merry Unbirthday Tea Party",
-  description:
-    "RSVP for the Very Merry Unbirthday Tea Party — Alice in Wonderland (1951) themed tea on Sunday 25 January 2026."
+export const metadata = {
+  title: "Unbirthday Tea Party",
+  description: "Story-mode RSVP",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en">
-      <body>{children}</body>
+    <html lang="en-GB">
+      <body>
+        <div className="shell">{children}</div>
+      </body>
     </html>
   );
 }
