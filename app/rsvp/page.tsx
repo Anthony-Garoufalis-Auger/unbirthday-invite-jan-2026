@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 import { COPY } from "@/lib/copy";
@@ -10,30 +10,44 @@ export default function RsvpPage() {
   const router = useRouter();
   const c = COPY["/rsvp"];
 
+  /**
+   * We want TypeScript to know attendance can ONLY be one of the options in COPY.
+   * But anything from storage is just "string", so we validate before setting it.
+   */
+  const options = useMemo(() => c.options as readonly string[], [c.options]);
+  type AttendanceOption = (typeof options)[number];
+
+  function isAttendanceOption(v: unknown): v is AttendanceOption {
+    return typeof v === "string" && options.includes(v);
+  }
+
   const [showLedger, setShowLedger] = useState(false);
   const [name, setName] = useState("");
-  const [attendance, setAttendance] = useState(c.options[0]);
+  const [attendance, setAttendance] = useState<AttendanceOption>(options[0]);
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
   useEffect(() => {
     const s = loadStored();
     if (s.name) setName(s.name);
-    if (s.attendance) setAttendance(s.attendance);
-  }, []);
+    if (isAttendanceOption(s.attendance)) setAttendance(s.attendance);
+  }, [options]);
 
   async function submit() {
     setSubmitting(true);
     setErr(null);
-    saveStored({ name: name.trim() || undefined, attendance });
+
+    const trimmed = name.trim();
+    saveStored({ name: trimmed || undefined, attendance });
 
     // Optional: if your repo has an API route, this will work; if not, it just skips.
     try {
       const res = await fetch("/api/rsvp", {
         method: "POST",
         headers: { "content-type": "application/json" },
-        body: JSON.stringify({ name: name.trim(), attendance }),
+        body: JSON.stringify({ name: trimmed, attendance }),
       });
+
       // Ignore 404 (API not implemented yet)
       if (!res.ok && res.status !== 404) {
         const t = await res.text();
@@ -53,28 +67,46 @@ export default function RsvpPage() {
       <section className="panel">
         <h1>{c.title}</h1>
 
-        <p><strong>{c.question}</strong></p>
+        <p>
+          <strong>{c.question}</strong>
+        </p>
 
         <div className="row">
-          <button className="primary" onClick={() => setShowLedger(true)}>{c.buttons.yes}</button>
+          <button className="primary" onClick={() => setShowLedger(true)}>
+            {c.buttons.yes}
+          </button>
           <button onClick={() => router.push("/regrets")}>{c.buttons.no}</button>
         </div>
 
         {showLedger && (
           <>
             <hr />
-            <p><strong>{c.ledgerTitle}</strong></p>
+            <p>
+              <strong>{c.ledgerTitle}</strong>
+            </p>
 
             <label>
               <span className="small">Name</span>
-              <input value={name} onChange={(e) => setName(e.target.value)} placeholder="Your name" />
+              <input
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Your name"
+              />
             </label>
 
             <label>
               <span className="small">Choose one</span>
-              <select value={attendance} onChange={(e) => setAttendance(e.target.value)}>
-                {c.options.map((opt) => (
-                  <option key={opt} value={opt}>{opt}</option>
+              <select
+                value={attendance}
+                onChange={(e) => {
+                  const v = e.target.value;
+                  if (isAttendanceOption(v)) setAttendance(v);
+                }}
+              >
+                {options.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
                 ))}
               </select>
             </label>
@@ -82,7 +114,11 @@ export default function RsvpPage() {
             {err && <p className="small">{err}</p>}
 
             <div className="row">
-              <button className="primary" disabled={submitting || !name.trim()} onClick={submit}>
+              <button
+                className="primary"
+                disabled={submitting || !name.trim()}
+                onClick={submit}
+              >
                 {submitting ? "…" : c.submit}
               </button>
             </div>
@@ -92,3 +128,4 @@ export default function RsvpPage() {
     </PageShell>
   );
 }
+
