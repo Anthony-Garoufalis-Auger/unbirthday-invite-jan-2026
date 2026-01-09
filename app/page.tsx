@@ -109,12 +109,12 @@ export default function LookingGlassPage() {
 
         {/* Action buttons */}
         <div className="actions choices" role="group" aria-label="Your answer">
-          <button className="button choice" data-choice="yes" onClick={goWas}>
-            {c.buttons.yes}
-          </button>
-
           <button className="button choice" data-choice="no" onClick={goWasNot}>
             {c.buttons.no}
+          </button>
+
+          <button className="button choice" data-choice="yes" onClick={goWas}>
+            {c.buttons.yes}
           </button>
         </div>
       </section>
