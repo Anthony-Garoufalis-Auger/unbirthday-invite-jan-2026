@@ -3,6 +3,12 @@
   --paper-min: 320px;
 }
 
+*,
+*::before,
+*::after{
+  box-sizing: border-box;
+}
+
 /* Prevent horizontal overflow (the “must zoom out” symptom) */
 html, body{
   margin: 0;

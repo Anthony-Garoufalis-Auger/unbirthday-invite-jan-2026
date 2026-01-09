@@ -47,14 +47,15 @@ export default function RegretsPage() {
           <p key={line}>{line}</p>
         ))}
 
-        <label>
+        <div className="field">
           <textarea
             rows={5}
             value={note}
             onChange={(e) => setNote(e.target.value)}
             placeholder="Your regrets…"
+            aria-label="Your regrets"
           />
-        </label>
+        </div>
 
         {err && <p className="small">{err}</p>}
         {submitted && <p className="small">Noted.</p>}
