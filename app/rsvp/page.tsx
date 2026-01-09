@@ -23,7 +23,7 @@ export default function RsvpPage() {
 
   const [showLedger, setShowLedger] = useState(false);
   const [name, setName] = useState("");
-  const [attendance, setAttendance] = useState<AttendanceOption>(options[0]);
+  const [attendance, setAttendance] = useState<string>(c.options[0]);
   const [submitting, setSubmitting] = useState(false);
   const [err, setErr] = useState<string | null>(null);
 
