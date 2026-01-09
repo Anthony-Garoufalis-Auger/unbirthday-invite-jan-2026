@@ -16,8 +16,6 @@ export default function InvitationPage() {
           <p key={line}>{line}</p>
         ))}
 
-        <hr />
-
         <p><strong>{c.question}</strong></p>
 
         <div className="row">

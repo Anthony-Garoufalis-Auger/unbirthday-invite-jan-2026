@@ -13,7 +13,7 @@ export default function DressPage() {
       <section className="panel">
         <h1>{c.title}</h1>
         {c.body.map((line, idx) => (
-          line === "" ? <hr key={idx} /> : <p key={idx}>{line}</p>
+          line === "" ? null : <p key={`${line}-${idx}`}>{line}</p>
         ))}
         <p><strong>{c.question}</strong></p>
         <div className="row">

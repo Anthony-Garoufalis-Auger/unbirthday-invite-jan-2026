@@ -80,7 +80,6 @@ export default function RsvpPage() {
 
         {showLedger && (
           <>
-            <hr />
             <p>
               <strong>{c.ledgerTitle}</strong>
             </p>
@@ -128,4 +127,3 @@ export default function RsvpPage() {
     </PageShell>
   );
 }
-

@@ -80,9 +80,6 @@ export default function LookingGlassPage() {
           <p key={line}>{line}</p>
         ))}
 
-        {/* A subtle separator; keep it if you like the pacing */}
-        <hr />
-
         {/* Name prompt */}
         <p>
           <strong>{c.namePrompt}</strong>
