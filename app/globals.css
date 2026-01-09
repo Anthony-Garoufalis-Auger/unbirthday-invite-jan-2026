@@ -198,7 +198,7 @@ img{
 /* Stack choices like a menu on phones */
 .actions.choices{
   display: grid;
-  gap: 10px;
+  gap: 5px;
 }
 
 /* Remove inline separator glyphs for stacked choices */
