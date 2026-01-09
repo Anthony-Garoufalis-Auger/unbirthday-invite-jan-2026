@@ -3,17 +3,61 @@
   --paper-min: 320px;
 }
 
+/* Prevent horizontal overflow (the “must zoom out” symptom) */
+html, body{
+  margin: 0;
+  overflow-x: hidden;
+}
+
 /* Page background outside the illustration */
 body{
-  margin: 0;
   background: #efe9dc;
   color: #1b1b1b;
 }
 
-/* The single column that matches the illustration width */
+/* Make all images responsive by default */
+img{
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* PageShell outer wrapper */
 .shell{
+  min-height: 100svh;
+  display: flex;
+  justify-content: center;
+  background: #efe9dc;
+}
+
+/* Stage: single column, two rows (hero + content) */
+.stage{
   width: clamp(var(--paper-min), 92vw, var(--paper-max));
-  margin: 0 auto;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* A dedicated illustration slot that always fits on phones */
+.heroArt{
+  width: 100%;
+  height: min(42svh, 420px); /* lower if you want more text above the fold */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Make the illustration fit inside the slot */
+.heroArt img{
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* critical: contain, not cover */
+}
+
+/* Content area below the hero (scrolls naturally if needed) */
+.content{
+  flex: 1;
   padding-top: 10px;
 }
 
@@ -58,7 +102,9 @@ body{
   font-size: clamp(13px, 1.7vw, 16px);
 }
 
-.field input{
+.field input,
+.field select,
+.field textarea{
   width: 100%;
   font: inherit;
   padding: 6px 0;
@@ -68,7 +114,9 @@ body{
   outline: none;
 }
 
-.field input:focus{
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
   border-bottom-color: rgba(0,0,0,0.8);
 }
 
