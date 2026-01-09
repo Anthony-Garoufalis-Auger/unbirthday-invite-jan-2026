@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo } from "react";
+import { Suspense, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 
@@ -11,14 +11,13 @@ const LINES: Record<string, string> = {
   "must-bring": "You refuse the necessities? You get the boot at the door.",
   "should-bring": "You refuse to perform? How timid.",
   "could-bring": "You refuse the optional offering? Suit yourself.",
-  mustnt: "You refuse restraint? Typical of you.",
+  "mustnt-bring": "You refuse restraint? Typical of you.",
   "table-rules": "You refuse the rules? The table will notice.",
   oath: "You refuse enthusiasm? A pity.",
 };
 
 function safeReturnTo(raw: string | null): string {
   if (!raw) return "/";
-  // Only allow internal paths to avoid weird redirects.
   if (raw.startsWith("/")) return raw;
   try {
     const decoded = decodeURIComponent(raw);
@@ -28,7 +27,7 @@ function safeReturnTo(raw: string | null): string {
   }
 }
 
-export default function RepentPage() {
+function RepentInner() {
   const router = useRouter();
   const params = useSearchParams();
 
@@ -36,10 +35,7 @@ export default function RepentPage() {
   const returnTo = safeReturnTo(params.get("returnTo"));
 
   const line = useMemo(() => {
-    // Handle legacy/typos gracefully
-    if (LINES[reason]) return LINES[reason];
-    if (reason === "mustnt-bring") return LINES.mustnt;
-    return LINES.invitation;
+    return LINES[reason] ?? LINES.invitation;
   }, [reason]);
 
   return (
@@ -55,6 +51,14 @@ export default function RepentPage() {
         </div>
       </section>
     </PageShell>
+  );
+}
+
+export default function RepentPage() {
+  return (
+    <Suspense fallback={<PageShell><section className="panel" /></PageShell>}>
+      <RepentInner />
+    </Suspense>
   );
 }
 
