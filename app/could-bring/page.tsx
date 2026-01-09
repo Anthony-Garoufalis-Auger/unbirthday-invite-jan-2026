@@ -10,15 +10,15 @@ export default function Page() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>{c.title}</h1>
         {c.body.map((line: string) => (
           <p key={line}>{line}</p>
         ))}
         <p><strong>{c.question}</strong></p>
-        <div className="row">
-          <button className="primary" onClick={() => router.push("/mustnt-bring")}>{c.buttons.yes}</button>
-          <button onClick={() => router.push(`/repent?returnTo=/could-bring&reason=could-bring`)}>{c.buttons.no}</button>
+        <div className="row actions choices">
+          <button className="primary choice" onClick={() => router.push("/mustnt-bring")}>{c.buttons.yes}</button>
+          <button className="choice choice" onClick={() => router.push(`/repent?returnTo=/could-bring&reason=could-bring`)}>{c.buttons.no}</button>
         </div>
       </section>
     </PageShell>

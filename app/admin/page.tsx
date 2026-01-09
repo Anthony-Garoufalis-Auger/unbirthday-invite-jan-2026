@@ -57,16 +57,16 @@ export default function AdminPage() {
   }
 
   return (
-    <main className="container">
-      <div className="card">
+    <main className="container choice">
+      <div className="card choice">
         <header>
-          <div className="smallcaps">Admin</div>
+          <div className="smallcaps choice">Admin</div>
           <h1>RSVP ledger</h1>
-          <p className="sub">Enter your admin token. Keep it secret. Keep it safe.</p>
+          <p className="sub choice">Enter your admin token. Keep it secret. Keep it safe.</p>
         </header>
 
-        <div className="grid" style={{ gridTemplateColumns: "1fr" }}>
-          <section className="section" aria-label="Admin token">
+        <div className="grid choice" style={{ gridTemplateColumns: "1fr" }}>
+          <section className="section choice" aria-label="Admin token">
             <h2>Token</h2>
             <label htmlFor="token">ADMIN_TOKEN</label>
             <input
@@ -77,22 +77,22 @@ export default function AdminPage() {
               autoComplete="off"
             />
             <div style={{ marginTop: 12 }}>
-              <button type="button" onClick={onSaveAndLoad} disabled={!token || loading}>
+              <button className="choice choice" type="button" onClick={onSaveAndLoad} disabled={!token || loading}>
                 {loading ? "Loading…" : "Load RSVPs"}
               </button>
               {err && (
-                <p className="fineprint" style={{ color: "#ffd7b3" }}>
+                <p className="fineprint choice" style={{ color: "#ffd7b3" }}>
                   {err}
                 </p>
               )}
-              <p className="fineprint">
+              <p className="fineprint choice">
                 <a href="/">Back to invite</a>
               </p>
             </div>
           </section>
 
           {rows && (
-            <section className="section" aria-label="RSVP list" style={{ marginTop: 14 }}>
+            <section className="section choice" aria-label="RSVP list" style={{ marginTop: 14 }}>
               <h2>Responses ({rows.length})</h2>
 
               <div style={{ overflowX: "auto" }}>
@@ -144,7 +144,7 @@ export default function AdminPage() {
                 </table>
               </div>
 
-              <p className="fineprint" style={{ marginTop: 12 }}>
+              <p className="fineprint choice" style={{ marginTop: 12 }}>
                 Tip: you can copy/paste this table into a spreadsheet.
               </p>
             </section>

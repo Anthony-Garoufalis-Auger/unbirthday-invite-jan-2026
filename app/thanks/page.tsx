@@ -10,13 +10,13 @@ export default function ThanksPage() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>{c.title}</h1>
         {c.body.map((line) => (
           <p key={line}>{line}</p>
         ))}
-        <div className="row">
-          <button className="primary" onClick={() => router.push("/home")}>{c.button}</button>
+        <div className="row actions choices">
+          <button className="primary choice" onClick={() => router.push("/home")}>{c.button}</button>
         </div>
       </section>
     </PageShell>

@@ -10,7 +10,7 @@ export default function InvitationPage() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>{c.title}</h1>
         {c.body.map((line) => (
           <p key={line}>{line}</p>
@@ -18,11 +18,11 @@ export default function InvitationPage() {
 
         <p><strong>{c.question}</strong></p>
 
-        <div className="row">
-          <button className="primary" onClick={() => router.push("/details")}>
+        <div className="row actions choices">
+          <button className="primary choice" onClick={() => router.push("/details")}>
             {c.buttons.yes}
           </button>
-          <button onClick={() => router.push("/repent?returnTo=/invitation&reason=invitation")}>
+          <button className="choice choice" onClick={() => router.push("/repent?returnTo=/invitation&reason=invitation")}>
             {c.buttons.no}
           </button>
         </div>

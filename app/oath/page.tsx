@@ -12,7 +12,7 @@ export default function OathPage() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>{c.title}</h1>
         {c.body.map((line) => (
           <p key={line}>{line}</p>
@@ -23,11 +23,11 @@ export default function OathPage() {
           <span>{c.checkbox}</span>
         </label>
 
-        <div className="row">
-          <button className="primary" disabled={!checked} onClick={() => router.push("/thanks")}>
+        <div className="row actions choices">
+          <button className="primary choice" disabled={!checked} onClick={() => router.push("/thanks")}>
             {c.buttons.yes}
           </button>
-          <button onClick={() => router.push("/repent?returnTo=/oath&reason=oath")}>
+          <button className="choice choice" onClick={() => router.push("/repent?returnTo=/oath&reason=oath")}>
             {c.buttons.no}
           </button>
         </div>

@@ -40,12 +40,12 @@ function RepentInner() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>YOU FAILED.</h1>
         <p>{line}</p>
 
-        <div className="row">
-          <button className="primary" onClick={() => router.push(returnTo)}>
+        <div className="row actions choices">
+          <button className="primary choice" onClick={() => router.push(returnTo)}>
             I shall try again.
           </button>
         </div>
@@ -56,7 +56,7 @@ function RepentInner() {
 
 export default function RepentPage() {
   return (
-    <Suspense fallback={<PageShell><section className="panel" /></PageShell>}>
+    <Suspense fallback={<PageShell><section className="panel choice" /></PageShell>}>
       <RepentInner />
     </Suspense>
   );

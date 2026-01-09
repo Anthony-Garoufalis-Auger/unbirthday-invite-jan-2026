@@ -10,7 +10,7 @@ export default function DetailsPage() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>{c.title}</h1>
 
         {c.body.map((line, idx) => (
@@ -19,11 +19,11 @@ export default function DetailsPage() {
 
         <p><strong>{c.question}</strong></p>
 
-        <div className="row">
-          <button className="primary" onClick={() => router.push("/rsvp")}>
+        <div className="row actions choices">
+          <button className="primary choice" onClick={() => router.push("/rsvp")}>
             {c.buttons.yes}
           </button>
-          <button onClick={() => router.push("/repent?returnTo=/details&reason=details")}>
+          <button className="choice choice" onClick={() => router.push("/repent?returnTo=/details&reason=details")}>
             {c.buttons.no}
           </button>
         </div>

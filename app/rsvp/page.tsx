@@ -64,18 +64,18 @@ export default function RsvpPage() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>{c.title}</h1>
 
         <p>
           <strong>{c.question}</strong>
         </p>
 
-        <div className="row">
-          <button className="primary" onClick={() => setShowLedger(true)}>
+        <div className="row actions choices">
+          <button className="primary choice" onClick={() => setShowLedger(true)}>
             {c.buttons.yes}
           </button>
-          <button onClick={() => router.push("/regrets")}>{c.buttons.no}</button>
+          <button className="choice choice" onClick={() => router.push("/regrets")}>{c.buttons.no}</button>
         </div>
 
         {showLedger && (
@@ -85,7 +85,7 @@ export default function RsvpPage() {
             </p>
 
             <label>
-              <span className="small">Name</span>
+              <span className="small choice">Name</span>
               <input
                 value={name}
                 onChange={(e) => setName(e.target.value)}
@@ -94,7 +94,7 @@ export default function RsvpPage() {
             </label>
 
             <label>
-              <span className="small">Choose one</span>
+              <span className="small choice">Choose one</span>
               <select
                 value={attendance}
                 onChange={(e) => {
@@ -110,11 +110,11 @@ export default function RsvpPage() {
               </select>
             </label>
 
-            {err && <p className="small">{err}</p>}
+            {err && <p className="small choice">{err}</p>}
 
-            <div className="row">
-              <button
-                className="primary"
+            <div className="row actions choices">
+              <button className="choice choice"
+                className="primary choice"
                 disabled={submitting || !name.trim()}
                 onClick={submit}
               >

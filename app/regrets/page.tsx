@@ -41,13 +41,13 @@ export default function RegretsPage() {
 
   return (
     <PageShell>
-      <section className="panel">
+      <section className="panel choice">
         <h1>{c.title}</h1>
         {c.body.map((line) => (
           <p key={line}>{line}</p>
         ))}
 
-        <div className="field">
+        <label>
           <textarea
             rows={5}
             value={note}
@@ -55,14 +55,14 @@ export default function RegretsPage() {
             placeholder="Your regrets…"
             aria-label="Your regrets"
           />
-        </div>
+        </label>
 
-        {err && <p className="small">{err}</p>}
-        {submitted && <p className="small">Noted.</p>}
+        {err && <p className="small choice">{err}</p>}
+        {submitted && <p className="small choice">Noted.</p>}
 
-        <div className="row">
-          <button className="primary" onClick={submit}>{c.submit}</button>
-          <button onClick={() => router.push("/rsvp")}>{c.reconsider}</button>
+        <div className="row actions choices">
+          <button className="primary choice" onClick={submit}>{c.submit}</button>
+          <button className="choice choice" onClick={() => router.push("/rsvp")}>{c.reconsider}</button>
         </div>
       </section>
     </PageShell>
