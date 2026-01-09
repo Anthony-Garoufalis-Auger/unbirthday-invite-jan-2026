@@ -184,3 +184,79 @@ img{
     top: calc(46% + 6lh);
   }
 }
+
+/* =========================
+   Choice buttons (dialogue)
+   ========================= */
+
+/* Prompt line above options */
+.prompt{
+  margin: 6px 0 10px;
+  letter-spacing: 0.02em;
+}
+
+/* Stack choices like a menu on phones */
+.actions.choices{
+  display: grid;
+  gap: 10px;
+}
+
+/* Remove inline separator glyphs for stacked choices */
+.actions.choices button + button::before{
+  content: none;
+  margin: 0;
+}
+
+/* Full-width, left-aligned, big tap targets */
+.actions.choices .choice{
+  text-align: left;
+  width: 100%;
+  min-height: 44px;
+  padding-left: 2.2rem;
+  position: relative;
+}
+
+/* Default glyph = Proceed / Yes */
+.actions.choices .choice::before{
+  content: "♥";
+  position: absolute;
+  left: 0.9rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0.95;
+}
+
+/* Refuse / No */
+.actions.choices .choice[data-choice="no"]::before{
+  content: "♠";
+}
+
+/* Explain / Tell me more */
+.actions.choices .choice[data-choice="info"]::before{
+  content: "♦";
+}
+
+/* Obvious focus ring (keyboard + clarity) */
+.button:focus-visible{
+  outline: 3px solid #000;
+  outline-offset: 2px;
+}
+
+/* Press feedback */
+.button:active{
+  transform: translateY(1px);
+}
+
+/* Optional: tiny nudge animation if you add className="prompt nudge"
+   (Respects reduced-motion and stops after a few cycles) */
+@media (prefers-reduced-motion: no-preference){
+  .prompt.nudge::after{
+    content: "  ↓";
+    display: inline-block;
+    animation: nudge 0.9s ease-in-out 0s 5;
+  }
+  @keyframes nudge{
+    0%,100%{ transform: translateY(0); }
+    50%{ transform: translateY(3px); }
+  }
+}

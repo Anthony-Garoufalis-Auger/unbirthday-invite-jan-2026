@@ -103,17 +103,17 @@ export default function LookingGlassPage() {
         </div>
 
         {/* Question */}
-        <p>
+        <p className="prompt">
           <strong>{c.question}</strong>
         </p>
 
         {/* Action buttons */}
-        <div className="actions">
-          <button className="button" onClick={goWas}>
+        <div className="actions choices" role="group" aria-label="Your answer">
+          <button className="button choice" data-choice="yes" onClick={goWas}>
             {c.buttons.yes}
           </button>
 
-          <button className="button" onClick={goWasNot}>
+          <button className="button choice" data-choice="no" onClick={goWasNot}>
             {c.buttons.no}
           </button>
         </div>
