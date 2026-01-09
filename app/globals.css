@@ -53,11 +53,7 @@ img{
 /* Overlay content starts within the illustration’s lower half */
 .overlay{
   position: absolute;
-<<<<<<< ours
-  top: calc(50% + 5lh);
-=======
   top: calc(50% + 7lh);
->>>>>>> theirs
   left: 0;
   right: 0;
   z-index: 1;
@@ -138,7 +134,7 @@ img{
   font: inherit;
   color: #1b1b1b;
   cursor: pointer;
-  text-decoration: underline;
+  text-decoration: none;
 }
 
 .actions button + button::before,
@@ -150,7 +146,7 @@ img{
 
 @media (max-width: 430px){
   .copy{
-    padding: 12px 16px;
+    padding: 12px 12px;
   }
 
   .copy h1{
