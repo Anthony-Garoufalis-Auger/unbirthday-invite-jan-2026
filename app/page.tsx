@@ -75,9 +75,6 @@ export default function LookingGlassPage() {
         We use .copy (transparent) instead.
       */}
       <section className="copy">
-        {/* Title */}
-        <h1>{c.title}</h1>
-
         {/* Body lines */}
         {c.body.map((line) => (
           <p key={line}>{line}</p>
@@ -127,4 +124,3 @@ export default function LookingGlassPage() {
     </PageShell>
   );
 }
-

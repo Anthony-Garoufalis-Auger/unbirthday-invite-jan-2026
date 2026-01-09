@@ -48,6 +48,10 @@ img{
 /* Overlay content starts within the illustration’s lower half */
 .overlay{
   margin-top: clamp(-220px, -28svh, -140px);
+<<<<<<< ours
+=======
+  padding-top: clamp(40px, 8svh, 90px);
+>>>>>>> theirs
 }
 
 /* This class is used inside each page (your <section className="copy">) */
@@ -161,5 +165,9 @@ img{
 @media (max-height: 700px){
   .overlay{
     margin-top: clamp(-200px, -24svh, -120px);
+<<<<<<< ours
+=======
+    padding-top: clamp(30px, 6svh, 80px);
+>>>>>>> theirs
   }
 }
