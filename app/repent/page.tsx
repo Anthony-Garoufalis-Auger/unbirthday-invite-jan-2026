@@ -1,25 +1,60 @@
 "use client";
 
+import { useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
-import { REPENT_REASON } from "@/lib/copy";
+
+const LINES: Record<string, string> = {
+  invitation: "You have refused my invitation? How unwise.",
+  details: "You refuse the particulars? Typical of you.",
+  dress: "You refuse to dress the part? The table frowns.",
+  "must-bring": "You refuse the necessities? You get the boot at the door.",
+  "should-bring": "You refuse to perform? How timid.",
+  "could-bring": "You refuse the optional offering? Suit yourself.",
+  mustnt: "You refuse restraint? Typical of you.",
+  "table-rules": "You refuse the rules? The table will notice.",
+  oath: "You refuse enthusiasm? A pity.",
+};
+
+function safeReturnTo(raw: string | null): string {
+  if (!raw) return "/";
+  // Only allow internal paths to avoid weird redirects.
+  if (raw.startsWith("/")) return raw;
+  try {
+    const decoded = decodeURIComponent(raw);
+    return decoded.startsWith("/") ? decoded : "/";
+  } catch {
+    return "/";
+  }
+}
 
 export default function RepentPage() {
   const router = useRouter();
-  const sp = useSearchParams();
-  const returnTo = sp.get("returnTo") || "/";
-  const reason = sp.get("reason") || "";
-  const body = (reason && REPENT_REASON[reason]) ? REPENT_REASON[reason] : "You have displeased the table.";
+  const params = useSearchParams();
+
+  const reason = params.get("reason") ?? "invitation";
+  const returnTo = safeReturnTo(params.get("returnTo"));
+
+  const line = useMemo(() => {
+    // Handle legacy/typos gracefully
+    if (LINES[reason]) return LINES[reason];
+    if (reason === "mustnt-bring") return LINES.mustnt;
+    return LINES.invitation;
+  }, [reason]);
 
   return (
     <PageShell>
       <section className="panel">
         <h1>YOU FAILED.</h1>
-        <p>{body}</p>
+        <p>{line}</p>
+
         <div className="row">
-          <button className="primary" onClick={() => router.push(returnTo)}>I shall try again.</button>
+          <button className="primary" onClick={() => router.push(returnTo)}>
+            I shall try again.
+          </button>
         </div>
       </section>
     </PageShell>
   );
 }
+
