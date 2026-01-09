@@ -174,10 +174,7 @@ img{
 /* Extra-short phones (iPhone SE etc.) */
 @media (max-height: 700px){
   .overlay{
-<<<<<<< ours
     top: calc(46% + 4lh);
-=======
     top: calc(46% + 6lh);
->>>>>>> theirs
   }
 }
