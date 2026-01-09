@@ -15,7 +15,7 @@ export default function DressRefusalPage() {
         {c.body.map((line) => (
           <p key={line}>{line}</p>
         ))}
-        <div className="row">
+        <div className="row actions choices">
           <button className="primary" onClick={() => router.push("/must-bring")}>{c.button}</button>
         </div>
       </section>
