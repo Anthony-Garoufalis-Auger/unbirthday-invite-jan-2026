@@ -4,6 +4,7 @@ export type Stored = {
   name?: string;
   attendance?: string;
   regret_note?: string;
+  rsvp_id?: string;
 };
 
 export function loadStored(): Stored {

@@ -4,6 +4,8 @@ import { Suspense, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 
+let lastRepentSrc: string | null = null;
+
 const LINES: Record<string, string> = {
   invitation: "You have refused my invitation? How unwise.",
   details: "You refuse the particulars? Typical of you.",
@@ -38,8 +40,17 @@ function RepentInner() {
     return LINES[reason] ?? LINES.invitation;
   }, [reason]);
 
+  const repentSrc = useMemo(() => {
+    const next =
+      lastRepentSrc === "/illustrations/p17-repent.webp"
+        ? "/illustrations/p18-repent.webp"
+        : "/illustrations/p17-repent.webp";
+    lastRepentSrc = next;
+    return next;
+  }, [reason, returnTo]);
+
   return (
-    <PageShell>
+    <PageShell illustrationSrc={repentSrc}>
       <section className="panel choice">
         <h1>YOU FAILED.</h1>
         <p>{line}</p>
@@ -61,4 +72,3 @@ export default function RepentPage() {
     </Suspense>
   );
 }
-

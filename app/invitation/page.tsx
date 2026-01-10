@@ -7,17 +7,15 @@ import { COPY } from "@/lib/copy";
 export default function InvitationPage() {
   const router = useRouter();
   const c = COPY["/invitation"];
+  const bodyLines = c.body;
 
   return (
     <PageShell>
-      <section className="panel choice">
-        <h1>{c.title}</h1>
-        {c.body.map((line) => (
+      <section className="panel choice offset-invitation invitation-copy invitation-shift">
+        {bodyLines.map((line) => (
           <p key={line}>{line}</p>
         ))}
-
         <p><strong>{c.question}</strong></p>
-
         <div className="row actions choices">
           <button className="primary choice" onClick={() => router.push("/details")}>
             {c.buttons.yes}

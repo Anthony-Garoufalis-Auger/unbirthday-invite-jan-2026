@@ -10,7 +10,7 @@ export default function DressPage() {
 
   return (
     <PageShell>
-      <section className="panel choice">
+      <section className="panel choice offset-half offset-dress">
         <h1>{c.title}</h1>
         {c.body.map((line, idx) => (
           line === "" ? null : <p key={`${line}-${idx}`}>{line}</p>

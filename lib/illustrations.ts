@@ -5,7 +5,7 @@
 export const ILLUSTRATION_FOR_PATH: Record<string, string> = {
   "/": "/illustrations/p01-looking-glass.webp",
   "/not-invited": "/illustrations/p02-not-invited.webp",
-  "/invitation": "/illustrations/p03-invitation.webp",
+  "/invitation": "/illustrations/p03-invitation.png",
   "/details": "/illustrations/p04-details.webp",
   "/rsvp": "/illustrations/p05-rsvp.webp",
   "/regrets": "/illustrations/p06-regrets.webp",

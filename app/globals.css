@@ -13,6 +13,7 @@
 html, body{
   margin: 0;
   overflow-x: hidden;
+  overscroll-behavior-y: contain;
 }
 
 /* Page background outside the illustration */
@@ -54,6 +55,73 @@ img{
 /* Illustration + overlay stack */
 .heroArt{
   position: relative;
+  /* Reserve space so absolute overlay content can scroll into view. */
+  padding-bottom: clamp(6lh, 10vh, 14lh);
+}
+
+.heroArt[data-page="/must-bring"]::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0) 50%,
+    rgba(255,255,255,1) 100%
+  );
+  pointer-events: none;
+}
+
+.heroArt[data-page="/invitation"]::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0) 50%,
+    rgba(255,255,255,1) 100%
+  );
+  pointer-events: none;
+}
+
+.heroArt[data-page="/thanks"]::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0) 50%,
+    rgba(255,255,255,1) 100%
+  );
+  pointer-events: none;
+}
+
+.heroArt[data-page="/rsvp"]::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0) 50%,
+    rgba(255,255,255,1) 100%
+  );
+  pointer-events: none;
+}
+
+.heroArt[data-page="/regrets"]::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(255,255,255,0) 0%,
+    rgba(255,255,255,0) 50%,
+    rgba(255,255,255,1) 100%
+  );
+  pointer-events: none;
 }
 
 /* Overlay content starts within the illustration’s lower half */
@@ -65,14 +133,101 @@ img{
   z-index: 1;
 }
 
+.overlay[data-page]:not([data-page="/repent"]){
+  transform: translateY(2.5lh);
+}
+
 /* This class is used inside each page (your <section className="copy">) */
 .copy,
 .panel{
   width: 100%;
   padding: clamp(10px, 2.2vw, 18px) clamp(14px, 2.6vw, 22px);
+  padding-bottom: calc(clamp(10px, 2.2vw, 18px) + env(safe-area-inset-bottom));
   background: transparent;
 }
 
+.offset-half{
+  margin-top: calc(-1 * 8lh);
+}
+
+.offset-details{
+  margin-top: calc(-1 * 3lh);
+}
+
+.offset-dress{
+  margin-top: calc(-6lh + 20px);
+}
+
+.offset-invitation{
+  margin-top: calc(-1 * 3lh);
+}
+
+.invitation-title{
+  font-family: "Garamond", "Palatino Linotype", "Book Antiqua", serif;
+  font-size: clamp(18px, 2.4vw, 24px);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+.offset-not-invited{
+  margin-top: calc(-1 * 3lh);
+}
+
+.offset-must-bring{
+  margin-top: calc(-1 * 8lh);
+}
+
+.offset-mustnt-bring{
+  margin-top: calc(-1 * 6lh);
+}
+
+.offset-could-bring{
+  margin-top: calc(-1 * 6lh);
+}
+
+.offset-should-bring{
+  margin-top: calc(-1 * 5lh);
+}
+
+.offset-oath{
+  margin-top: calc(-1 * 2lh);
+}
+
+.offset-home{
+  margin-top: calc(-1 * 7lh);
+}
+
+.offset-thanks{
+  margin-top: calc(-1 * 7lh);
+}
+
+.offset-dress-refusal{
+  margin-top: 1lh;
+}
+
+.initial{
+  float: left;
+  font-size: 3.2em;
+  line-height: 0.85;
+  padding-right: 0.2em;
+  padding-top: 0.08em;
+  font-family: "Georgia", "Times New Roman", serif;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+}
+
+.dress-refusal-copy p:first-of-type{
+  margin-bottom: 0;
+}
+
+.dress-refusal-copy p + p{
+  text-indent: 1.4em;
+  margin-top: 0;
+}
+
+.dress-refusal-copy p:nth-of-type(2){
+  margin-bottom: 1.4em;
+}
 /* Responsive type */
 .copy h1{
   margin: 0 0 10px 0;
@@ -96,6 +251,37 @@ img{
   opacity: 0.8;
 }
 
+.sr-only{
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.page1-copy{
+  font-size: clamp(14px, 1.9vw, 18px);
+}
+
+.page1-copy p,
+.page1-copy .prompt,
+.page1-copy .small,
+.page1-copy .button{
+  font-size: 1em;
+}
+
+.page1-copy .prompt{
+  margin-top: 1lh;
+}
+
+.page1-copy .name-prompt{
+  margin-top: 1lh;
+}
+
 .field label{
   display: block;
   margin: 12px 0 6px;
@@ -112,6 +298,84 @@ img{
   border-bottom: 1px solid rgba(0,0,0,0.35);
   background: transparent;
   outline: none;
+}
+
+.regrets-note textarea{
+  padding: 8px 10px;
+  border: 1px solid rgba(0,0,0,0.35);
+}
+
+.regrets-note textarea:focus{
+  border-color: rgba(0,0,0,0.8);
+}
+
+.regrets-shift{
+  margin-top: calc(-5lh);
+}
+
+.regrets-hint{
+  margin-top: 6px;
+}
+
+.page1-field-shift{
+  margin-top: 4lh;
+}
+
+.page1-copy .page1-question-shift{
+  margin-top: 0;
+  padding-top: 4lh;
+}
+
+.thanks-shift{
+  margin-top: calc(-9lh);
+}
+
+.home-shift{
+  margin-top: calc(-14lh);
+}
+
+.home-panel-shift{
+  margin-top: calc(-4lh);
+}
+
+.invitation-shift{
+  margin-top: 0;
+}
+
+.not-invited-shift{
+  margin-top: 2lh;
+}
+
+.not-invited-lead{
+  margin-top: 3lh;
+}
+
+.hint-mobile{
+  display: none;
+}
+
+@media (max-width: 430px){
+  .hint-desktop{
+    display: none;
+  }
+
+  .hint-mobile{
+    display: inline;
+  }
+}
+
+.flicker-placeholder::placeholder{
+  animation: placeholder-flicker 1.2s ease-in-out infinite;
+}
+
+.flicker-placeholder:focus::placeholder{
+  animation: none;
+  opacity: 0.35;
+}
+
+@keyframes placeholder-flicker{
+  0%, 100%{ opacity: 0.35; }
+  50%{ opacity: 1; }
 }
 
 .field input:focus,
@@ -226,6 +490,13 @@ img{
   opacity: 0.95;
 }
 
+/* Second option gets a spade by default */
+.actions.choices .choice:nth-child(2)::before{
+  content: "♠";
+  font-size: 1.15em;
+  left: 0.8rem;
+}
+
 /* Refuse / No */
 .actions.choices .choice[data-choice="no"]::before{
   content: "♠";
@@ -234,6 +505,37 @@ img{
 /* Explain / Tell me more */
 .actions.choices .choice[data-choice="info"]::before{
   content: "♦";
+}
+
+/* Keep the home page second option as a heart */
+.actions.choices.home-choices .choice::before{
+  font-size: 1em;
+}
+
+/* Page 1: swap glyphs (heart on "no", spade on "yes") */
+.actions.choices.home-choices .choice[data-choice="no"]::before{
+  content: "♥";
+  font-size: 1em;
+  left: 0.9rem;
+}
+
+.actions.choices.home-choices .choice:nth-child(2)::before{
+  content: "♠";
+  font-size: 1.25em;
+  left: 0.75rem;
+}
+
+.heroArt[data-page="/not-invited"] .actions.choices .choice::before{
+  left: 0.9rem;
+}
+
+/* Details page: diamond for maybe (2nd), spade for no (3rd) */
+.actions.choices.details-choices .choice:nth-child(2)::before{
+  content: "♦";
+}
+
+.actions.choices.details-choices .choice:nth-child(3)::before{
+  content: "♠";
 }
 
 /* Obvious focus ring (keyboard + clarity) */

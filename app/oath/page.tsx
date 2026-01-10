@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { PageShell } from "@/components/PageShell";
 import { COPY } from "@/lib/copy";
@@ -8,23 +7,17 @@ import { COPY } from "@/lib/copy";
 export default function OathPage() {
   const router = useRouter();
   const c = COPY["/oath"];
-  const [checked, setChecked] = useState(false);
 
   return (
     <PageShell>
-      <section className="panel choice">
+      <section className="panel choice offset-oath">
         <h1>{c.title}</h1>
-        {c.body.map((line) => (
-          <p key={line}>{line}</p>
+        {c.body.map((line, index) => (
+          <p key={line}>{index === 1 ? <strong>{line}</strong> : line}</p>
         ))}
 
-        <label style={{ display: "flex", gap: 10, alignItems: "flex-start" }}>
-          <input type="checkbox" checked={checked} onChange={(e) => setChecked(e.target.checked)} style={{ width: 18, height: 18, marginTop: 3 }} />
-          <span>{c.checkbox}</span>
-        </label>
-
         <div className="row actions choices">
-          <button className="primary choice" disabled={!checked} onClick={() => router.push("/thanks")}>
+          <button className="primary choice" onClick={() => router.push("/thanks")}>
             {c.buttons.yes}
           </button>
           <button className="choice choice" onClick={() => router.push("/repent?returnTo=/oath&reason=oath")}>

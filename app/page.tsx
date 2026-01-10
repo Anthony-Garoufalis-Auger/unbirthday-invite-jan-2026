@@ -25,7 +25,7 @@ import { PageShell } from "@/components/PageShell";
 import { COPY } from "@/lib/copy";
 
 // localStorage helpers so the name persists as the user moves through the flow.
-import { loadStored, saveStored } from "@/lib/storage";
+import { saveStored } from "@/lib/storage";
 
 export default function LookingGlassPage() {
   // Next.js client-side navigation
@@ -33,17 +33,18 @@ export default function LookingGlassPage() {
 
   // Copy for "/"
   const c = COPY["/"];
+  const presenceLine = c.body.find((line) => line.startsWith("A presence lingers"));
+  const restBody = presenceLine ? c.body.filter((line) => line !== presenceLine) : c.body;
 
   // Controlled input state for the user’s name
   const [name, setName] = useState("");
+  const [showQuestion, setShowQuestion] = useState(false);
 
-  /**
-   * On first render, load any stored state (e.g., name)
-   * so the input is prefilled if they come back.
-   */
   useEffect(() => {
-    const s = loadStored();
-    if (s.name) setName(s.name);
+    // Reset stored name on entry so the prompt is fresh.
+    saveStored({ name: undefined });
+    setName("");
+    setShowQuestion(false);
   }, []);
 
   /**
@@ -58,12 +59,30 @@ export default function LookingGlassPage() {
    * If you want me to flip them to match the story, say so.
    */
   function goWas() {
-    saveStored({ name: name.trim() || undefined });
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    saveStored({ name: trimmed });
     router.push("/not-invited");
   }
 
   function goWasNot() {
-    saveStored({ name: name.trim() || undefined });
+    const trimmed = name.trim();
+    if (!trimmed) return;
+    saveStored({ name: trimmed || undefined });
+    if (trimmed) {
+      fetch("/api/rsvp", {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ name: trimmed }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          if (data?.id) saveStored({ rsvp_id: data.id });
+        })
+        .catch(() => {
+          // Soft-fail: keep flow moving even if logging fails.
+        });
+    }
     router.push("/invitation");
   }
 
@@ -74,49 +93,72 @@ export default function LookingGlassPage() {
         The "panel" class is what created the grey box and boxed UI feel.
         We use .copy (transparent) instead.
       */}
-      <section className="copy">
+      <section className="copy page1-copy offset-home">
         {/* Body lines */}
-        {c.body.map((line) => (
+        {restBody.map((line) => (
           <p key={line}>{line}</p>
         ))}
 
-        {/* Name prompt */}
-        <p>
-          <strong>{c.namePrompt}</strong>
-        </p>
+        {!showQuestion ? (
+          <>
+            {/* Name prompt */}
+            <div className="page1-field-shift">
+              {presenceLine && <p>{presenceLine}</p>}
+              <p className="name-prompt">
+                <strong>{c.namePrompt}</strong>
+              </p>
 
-        {/* 
-          Field wrapper: lets CSS remove input boxes and use an underline instead.
-          Label + input are accessible (label is clickable).
-        */}
-        <div className="field">
-          <label htmlFor="name">
-            <span className="small">Name</span>
-          </label>
-          <input
-            id="name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            placeholder="Your name"
-            autoComplete="name"
-          />
-        </div>
+              {/* 
+                Field wrapper: lets CSS remove input boxes and use an underline instead.
+                Label + input are accessible (label is clickable).
+              */}
+              <div className="field">
+                <label htmlFor="name" className="sr-only">
+                  Name
+                </label>
+                <input
+                  id="name"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" && name.trim()) {
+                      const trimmed = name.trim();
+                      saveStored({ name: trimmed });
+                      setShowQuestion(true);
+                    }
+                  }}
+                  placeholder="Your name"
+                  autoComplete="name"
+                  className="flicker-placeholder"
+                />
+              </div>
+              <p className="small submit-hint">
+                <span className="hint-desktop">Press Enter to submit</span>
+                <span className="hint-mobile">Tap Send/Done to Submit</span>
+              </p>
+            </div>
+          </>
+        ) : (
+          <>
+            {/* Question */}
+            <div className="page1-question-shift">
+              <p className="prompt">
+                <strong>{c.question}</strong>
+              </p>
 
-        {/* Question */}
-        <p className="prompt">
-          <strong>{c.question}</strong>
-        </p>
+              {/* Action buttons */}
+              <div className="actions choices home-choices" role="group" aria-label="Your answer">
+                <button className="button choice" data-choice="no" onClick={goWasNot}>
+                  {c.buttons.no}
+                </button>
 
-        {/* Action buttons */}
-        <div className="actions choices" role="group" aria-label="Your answer">
-          <button className="button choice" data-choice="no" onClick={goWasNot}>
-            {c.buttons.no}
-          </button>
-
-          <button className="button choice" data-choice="yes" onClick={goWas}>
-            {c.buttons.yes}
-          </button>
-        </div>
+                <button className="button choice" data-choice="yes" onClick={goWas}>
+                  {c.buttons.yes}
+                </button>
+              </div>
+            </div>
+          </>
+        )}
       </section>
     </PageShell>
   );

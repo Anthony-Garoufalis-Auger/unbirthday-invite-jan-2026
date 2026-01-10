@@ -2,8 +2,9 @@ import { NextResponse } from "next/server";
 import { supabaseAdmin } from "@/lib/supabaseAdmin";
 
 type RSVP = {
+  id?: string;
   name: string;
-  rsvp: "in" | "likely" | "prepared";
+  rsvp?: "in" | "likely" | "prepared" | "no";
   tea?: string;
   sweet?: string;
   teapot?: boolean;
@@ -30,11 +31,12 @@ export async function POST(req: Request) {
 
   if (body?.botField) return NextResponse.json({ ok: true });
 
+  const id = cleanText(body?.id, 80);
   const name = cleanText(body?.name, 120);
   const rsvp = body?.rsvp;
 
   if (!name) return NextResponse.json({ error: "Name is required." }, { status: 400 });
-  if (!["in", "likely", "prepared"].includes(rsvp as string)) {
+  if (rsvp && !["in", "likely", "prepared", "no"].includes(rsvp as string)) {
     return NextResponse.json({ error: "Invalid RSVP value." }, { status: 400 });
   }
 
@@ -47,18 +49,35 @@ export async function POST(req: Request) {
   const mushrooms = typeof body?.mushrooms === "boolean" ? body.mushrooms : null;
 
   const supabase = supabaseAdmin();
-  const { error } = await supabase.from("rsvps").insert({
+
+  if (id && rsvp) {
+    const { error } = await supabase.from("rsvps").update({
+      name,
+      rsvp,
+      tea,
+      sweet,
+      teapot,
+      mushrooms,
+      costume,
+      notes
+    }).eq("id", id);
+
+    if (error) return NextResponse.json({ error: error.message }, { status: 500 });
+    return NextResponse.json({ ok: true, id });
+  }
+
+  const { data, error } = await supabase.from("rsvps").insert({
     name,
-    rsvp,
+    rsvp: rsvp ?? null,
     tea,
     sweet,
     teapot,
     mushrooms,
     costume,
     notes
-  });
+  }).select("id").single();
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 });
 
-  return NextResponse.json({ ok: true });
+  return NextResponse.json({ ok: true, id: data?.id });
 }

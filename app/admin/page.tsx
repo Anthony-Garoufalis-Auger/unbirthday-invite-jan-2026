@@ -6,7 +6,7 @@ type RSVPRow = {
   id: string;
   created_at: string;
   name: string;
-  rsvp: "in" | "likely" | "prepared";
+  rsvp: "in" | "likely" | "prepared" | "no" | null;
   tea: string | null;
   sweet: string | null;
   teapot: boolean | null;
@@ -16,8 +16,10 @@ type RSVPRow = {
 };
 
 function prettyRsvp(v: RSVPRow["rsvp"]) {
+  if (!v) return "… pending";
   if (v === "in") return "🫖 in";
   if (v === "likely") return "🐇 likely";
+  if (v === "no") return "🚫 no";
   return "👑 prepared";
 }
 

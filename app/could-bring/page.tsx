@@ -10,7 +10,7 @@ export default function Page() {
 
   return (
     <PageShell>
-      <section className="panel choice">
+      <section className="panel choice offset-must-bring offset-could-bring">
         <h1>{c.title}</h1>
         {c.body.map((line: string) => (
           <p key={line}>{line}</p>

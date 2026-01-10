@@ -10,10 +10,15 @@ export default function NotInvitedPage() {
 
   return (
     <PageShell>
-      <section className="panel choice">
+      <section className="panel choice offset-not-invited">
         <h1>{c.title}</h1>
         {c.body.map((line) => (
-          <p key={line}>{line}</p>
+          <p
+            key={line}
+            className={line.startsWith("Born on the 25th") ? "not-invited-lead" : undefined}
+          >
+            {line.startsWith("(Hmmm") ? <strong>{line}</strong> : line}
+          </p>
         ))}
         <div className="row actions choices">
           <button className="primary choice" onClick={() => router.push("/")}>

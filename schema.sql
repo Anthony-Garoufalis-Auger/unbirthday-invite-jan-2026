@@ -7,7 +7,7 @@ create table if not exists public.rsvps (
   id uuid primary key default gen_random_uuid(),
   created_at timestamptz not null default now(),
   name text not null,
-  rsvp text not null check (rsvp in ('in', 'likely', 'prepared')),
+  rsvp text check (rsvp in ('in', 'likely', 'prepared', 'no')),
   tea text,
   sweet text,
   teapot boolean,
